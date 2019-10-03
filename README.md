@@ -23,8 +23,7 @@ In order to run the app, navigate to bamazon.js from your terminal.
 Once in the terminal type in the following command: node + bamazon.js + enter or return
 You will then be required to follow the prompts shown in the terminal.
 
-To view a deployed version of the app, visit:
-To view a video of the working app, visit:
+To view a video of the working app, visit: https://drive.google.com/file/d/1Ze-_IF18iwqyP6DiSQpRpnsMytSe3WrX/view?usp=sharing
 
 The technologies used in this app include:
 
