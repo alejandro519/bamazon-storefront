@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
   database: "bamazon_db",
 });
 
-connection.connect(function(err) {
+connection.connect(function (err) {
   if (err) throw err;
   //console log all of the items available for sale//
   console.log("connected as id " + connection.threadId + "\n");
@@ -17,7 +17,7 @@ connection.connect(function(err) {
 
 function readProducts() {
   console.log("Showing all products in the store...\n");
-  connection.query("SELECT * FROM products", function(err, res) {
+  connection.query("SELECT * FROM products", function (err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.table(res);
@@ -39,8 +39,8 @@ function itemSelection() {
         type: "number",
         message: "How many would you like to purchase (enter a quantity)",
       },
-    ]).then(function(answers) {
-      console.log("\nitemid: " + answers.itemid,  "\nitemqty: " + answers.itemqty);
+    ]).then(function (answers) {
+      console.log("\nitemid: " + answers.itemid, "\nitemqty: " + answers.itemqty);
       // console.log(answers)
       // var qty = inventory.stock_quantity;
       // console.log("current quantity: " + inventory.stock_quantity)
@@ -49,53 +49,44 @@ function itemSelection() {
 }
 
 function queryItemsOnHand(answers) {
-  var query = connection.query("SELECT * FROM products WHERE ?", 
+  var query = connection.query("SELECT * FROM products WHERE ?",
     {
       id: answers.itemid
-    }, 
-    function(err, res) {
-    if (err) throw err;
-    for (var i = 0; i < res.length; i++) {
-      console.log(res[i].id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
-    }
-  });
-
-  // logs the actual query being run
-  // console.log(query.sql);
+    },
+    function (err, res) {
+      if (err) throw err;
+      for (var i = 0; i < res.length; i++) {
+        console.log(res[i].id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
+        if (res[i].stock_quantity >= answers.itemqty) {
+          console.log("\n-----------------------------")
+          console.log("Please hold for processing...")
+          console.log("-----------------------------\n")
+        }
+      }
+    });
   connection.end();
 }
 
-
-
-
-
-
-
-
-
-// function deleteProduct() {
-//   console.log("Checking current inventory of itemid " + itemid);
+// if (res[i].stock_quantity >= answers.itemqty) {
 //   connection.query(
-//     "SELECT * FROM products WHERE ?",
-//     {
-//       id: answers.itemid
-//     },
-//     function(err, res) {
-//       if (err) throw err;
-//       console.log(res.affectedRows + " products deleted!\n");
-//       // Call readProducts AFTER the DELETE completes
+//     "UPDATE products SET ? WHERE ?",
+//     [
+//       {
+//         id: answers.itemid
+//       },
+//       {
+//         stock_quantity: stock_quantity - answers.itemqty
+//       },
+//     ],
+//     function(error) {
+//       if (error) throw err;
+//       console.log("Item purchased successfully!");
 //       readProducts();
 //     }
 //   );
 // }
-
-
-
-//query the database to see the qty of the item selected - use workbench to initiate query
-  //SELECT * FROM products WHERE id=1
-//check if the qty selected is greater than the stock_qty
-  // if qty selected is greater - display "insufficient qty"
-
-//Otherwise this means updating the SQL database to reflect the remaining quantity.
-//Once the update goes through, show the customer the total cost of their purchase.
-
+// else {
+//   // if not enough items in inventory
+//   console.log("Damn, you're greedy - not enough items in inventory. Try again...");
+//   readProducts();
+// }
