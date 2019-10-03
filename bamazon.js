@@ -87,6 +87,6 @@ function queryItemsOnHand(answers) {
 // }
 // else {
 //   // if not enough items in inventory
-//   console.log("Damn, you're greedy - not enough items in inventory. Try again...");
+//   console.log("Not enough items in inventory - try again with a lesser amount...");
 //   readProducts();
 // }
